@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: Ivory;
+}
+
+h1 {
+  font-family: 'Luckiest Guy', cursive;
+  text-transform: uppercase;
+  font-size: 90px;
+  text-align: center;
+  letter-spacing: 8px;
+  padding: 20px;
+  position: relative;
+  color: tomato;
+  letter-spacing: -2px;
+}
+
+h1 span {
+  display: inline-block;
+  font-family: 'Fontdiner Swanky', cursive;
+  text-transform: lowercase;
+  text-decoration: underline;
+  -webkit-transform: rotate(-5deg);
+          transform: rotate(-5deg);
+}
+
+h1::before {
+  content: "*";
+  color: yellow;
+  display: inline-block;
+  -webkit-transform: translate(-10px, 10px);
+          transform: translate(-10px, 10px);
+}
+
+h1::after {
+  content: "*";
+  color: yellow;
+  display: inline-block;
+  -webkit-transform: translate(10px, 10px);
+          transform: translate(10px, 10px);
+}
+
+#game {
+  margin: 0 auto;
+  position: relative;
+  width: 960px;
+  height: 571px;
+  overflow: hidden;
+}
+
+#my_canvas {
+  position: absolute;
+  z-index: 1;
+  width: 960px;
+  height: 571px;
+}
+
+#my_canvas_wrapper {
+  position: absolute;
+  z-index: 0;
+  background: url(../img/seamless_bg.jpg);
+  height: 571px;
+  width: 20000px;
+}
+
+p {
+  font-family: 'Londrina Shadow', cursive;
+  color: yellow;
+  font-size: 30px;
+  position: absolute;
+  top: 0;
+}
+/*# sourceMappingURL=style.css.map */
