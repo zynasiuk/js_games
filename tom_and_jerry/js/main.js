@@ -31,6 +31,7 @@ const jerry_width = 110;
 let jerry_x = tom_width * 2;
 let run_under = false;
 let run_above = false;
+let game_over_img = new Image();
 /* OBSTACLES */
 const extra_distance = 200;
 const next_obstacle_like_this = Math.round(Math.random() * 1000);
@@ -50,6 +51,7 @@ const cheese_height = 81;
 let cheese_y = -10;
 let cheese_x = Math.round(Math.random() * c.width);
 let cheese_hit = false;
+
 
 /* FUNCTIONS */
 function draw_cheese() {
@@ -85,7 +87,7 @@ function draw_hole(hole_position) {
     ctx.drawImage(hole, hole_position, hole_y);
     if (tom_x > hole_position && tom_x < hole_position + tom_width && tom_y == 230 && cheese_hit != true) {
         tom_in_hole = true;
-        document.removeEventListener("keydown", toetsIn);
+        
         ctx.drawImage(tom, hole_position + 40, tom_y + 130);
         info("Press Enter to give another try!", 100);
         cheese_x = -200;
@@ -141,6 +143,7 @@ function tom_behave(x, y) {
 
     if (tom_in_hole == true) {
         tom.src = "img/tih.png";
+        document.removeEventListener("keydown", toetsIn);
     } else {
         ctx.drawImage(tom, tom_x, tom_y);
     }
@@ -181,6 +184,13 @@ function jerry_behave(x, y) {
     }
     run_under = false;
     run_above = false;
+}
+
+function draw_game_over(x,y) {
+    game_over_img.onload = () => {
+        ctx.drawImage(game_over_img, x, y);
+    }
+    game_over_img.src = "img/game_off.png";
 }
 
 /* KEYBOARD */
@@ -281,6 +291,7 @@ update();
 function game() {
     ctx.clearRect(0, 0, c.width, c.height);
     window.requestAnimationFrame(game);
+
     //lives and timer
     ctx.fillStyle = "yellow";
     ctx.fillText("Lives: " + lives, 710, 30);
@@ -303,22 +314,28 @@ function game() {
     jerry_behave(jerry_x, jerry_y);
     if (time_to_zero_round == 0) {
         info("Time over. Enter! Space!", 150);
+        draw_game_over();
+        ctx.drawImage(game_over_img, 600, 230);
         game_on = false;
     }
-    if (lives == 0) {
+    if (lives == 0 || tom_x + tom_width > c.width) {
         info("Game over. Enter! Space!", 150);
+        draw_game_over();
+        ctx.drawImage(game_over_img, 600, 230);
         game_on = false;
     }
-    if (tom_x + tom_width > jerry_x + jerry_width / 5) {
+    if (tom_x + tom_width > jerry_x + jerry_width / 4) {
         info("Nice! BRAVO! Enter? ;)", 100);
+        draw_game_over();
+        ctx.drawImage(game_over_img, 600, 230);
         game_on = false;
-    }
+    }   
 }
 
 game();
 
 function reset(evt) {
-    if (evt.keyCode == 13 && cheese_hit || tom_in_hole) {
+    if (evt.keyCode == 13 && cheese_hit || (evt.keyCode == 13 && tom_in_hole)) {
         lives--;
         jerry_x = tom_width * 2;
         tom_x = 10;
@@ -339,11 +356,16 @@ function reset(evt) {
 
 function info(x, y) {
     ctx.beginPath();
-    ctx.fillStyle = "rgba(255,255,0, .8)";
+    if (game_on == false) {
+        ctx.fillStyle = "rgba(255,255,0, 1)";
+
+    } else {
+        ctx.fillStyle = "rgba(255,255,0, .8)";
+    }   
     ctx.fillRect(0, 0, c.width, c.height);
     ctx.font = "60px Londrina Shadow";
     ctx.fillStyle = "rgb(255,99,71)";
-    ctx.fillText(x, y, 280);
+    ctx.fillText(x, y, c.height/2);
     document.addEventListener("keydown", reset);
     ctx.font = "30px Londrina Shadow";
 }
