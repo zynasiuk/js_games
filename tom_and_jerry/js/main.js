@@ -1,3 +1,4 @@
+// https://github.com/zynasiuk/js_games/tree/master/tom_and_jerry
 const c = document.getElementById("my_canvas");
 const ctx = c.getContext("2d");
 const wrapper = document.getElementById("my_canvas_wrapper");
