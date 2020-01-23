@@ -115,7 +115,11 @@ function draw_tree(tree_position) {
 
 function draw_shadow_tom(radiusX, radiusY) {
     ctx.beginPath();
-    ctx.fillStyle = "rgb(0,0,0,0.1)"
+    if (tom_in_hole == true) {
+       ctx.fillStyle = "rgb(0,0,0,0)"; 
+    } else {
+        ctx.fillStyle = "rgb(0,0,0,0.1)";
+    }    
     ctx.ellipse(tom_x + 100, 450, radiusX, radiusY, Math.PI, 0, 2 * Math.PI);
     ctx.fill();
 }
@@ -298,18 +302,18 @@ function game() {
     ctx.fillText("Lives: " + lives, 710, 30);
     ctx.fillText("Time: " + time_to_zero_round + "s", 830, 30);
     //obstacles  
-    draw_tree(tree_x);
-    draw_tree(tree_x + next_obstacle_like_this * 3);
-    draw_tree(tree_x + next_obstacle_like_this * 8);
-    draw_tree(tree_x + next_obstacle_like_this * 12);
-    draw_tree(tree_x + next_obstacle_like_this * 15);
-    draw_tree(tree_x + next_obstacle_like_this * 20);
     draw_hole(hole_x);
     draw_hole(hole_x + next_obstacle_like_this * 10);
     draw_hole(hole_x + next_obstacle_like_this * 12);
     draw_hole(hole_x + next_obstacle_like_this * 15);
     draw_hole(hole_x + next_obstacle_like_this * 20);
-    draw_cheese(cheese_x);
+   draw_cheese(cheese_x);
+        draw_tree(tree_x);
+    draw_tree(tree_x + next_obstacle_like_this * 3);
+    draw_tree(tree_x + next_obstacle_like_this * 8);
+    draw_tree(tree_x + next_obstacle_like_this * 12);
+    draw_tree(tree_x + next_obstacle_like_this * 15);
+    draw_tree(tree_x + next_obstacle_like_this * 20);
     //characters
     tom_behave(tom_x, tom_y);
     jerry_behave(jerry_x, jerry_y);
@@ -319,13 +323,13 @@ function game() {
         ctx.drawImage(game_over_img, 600, 230);
         game_on = false;
     }
-    if (lives == 0 || tom_x + tom_width > c.width) {
+    if ((lives == 0 || tom_x + tom_width > c.width) ||(lives == 1 && cheese_hit==true || lives == 1 && tom_in_hole==true)) {
         info("Game over. Enter! Space!", 150);
         draw_game_over();
         ctx.drawImage(game_over_img, 600, 230);
         game_on = false;
     }
-    if (tom_x + tom_width > jerry_x + jerry_width / 4) {
+    if (tom_x + tom_width > jerry_x + jerry_width / 12) {
         info("Nice! BRAVO! Enter? ;)", 100);
         draw_game_over();
         ctx.drawImage(game_over_img, 600, 230);
