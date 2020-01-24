@@ -46,7 +46,7 @@ const tree_width = 175;
 let tree_x = c.width - extra_distance;
 let hit_tree = false;
 const cheese = new Image();
-const cheese_distance = 2;
+let cheese_distance = 2;
 const cheese_width = 105;
 const cheese_height = 81;
 let cheese_y = -10;
@@ -68,14 +68,23 @@ function draw_cheese() {
     }
 
     if (cheese_y > c.height - 200 && cheese_hit != true) {
-        cheese_y = -40;
-        cheese_x = Math.round(Math.random() * c.width);
+        cheese_y = -20;
+        if (tom_x>200) {
+            cheese_x = Math.round(Math.random() * (c.width-200))+200
+        } else {
+            cheese_x = Math.round(Math.random() * c.width);
+        }
+ 
+        
     }
 
     if (cheese_hit == true) {
         ctx.drawImage(cheese, tom_x + tom_width, 400);
     } else {
         ctx.drawImage(cheese, cheese_x, cheese_y);
+    }
+    if (tom_x>200) {
+        cheese_distance=3;    
     }
 }
 
@@ -93,6 +102,7 @@ function draw_hole(hole_position) {
         info("Press Enter to give another try!", 100);
         cheese_x = -200;
     }
+
 
     if (jerry_x > hole_position && jerry_x < hole_position + hole_width - jerry_width) {
         run_above = true;
@@ -350,7 +360,7 @@ function reset(evt) {
         tom_y = 230;
         tom_in_hole = false;
         cheese_hit = false;
-        cheese_y = -30;
+        cheese_y = -20;
         cheese_x = Math.round(Math.random * c.width);
     }
 
